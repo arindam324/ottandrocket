@@ -3,7 +3,7 @@ import React from "react";
 const Button: React.FC<{
   text: string;
   bg: string;
-  onClick: () => void;
+  onClick?: () => void;
   color: string;
 }> = ({ text, bg, color, onClick }) => {
   return (
