@@ -4,6 +4,10 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 
 import Button from "./Button";
+import { useUser } from "../context/useProvider";
+import { useAuthState, useSignOut } from "react-firebase-hooks/auth";
+import { auth } from "../lib/firebase";
+import { UserCredential } from "firebase/auth";
 
 const NavItmes = [
   {
@@ -35,27 +39,56 @@ const NavItmes = [
 
 const Header = () => {
   const router = useRouter();
+  // const { user, setUser } = useUser();
+  const [user] = useAuthState(auth);
+
+  const [signOut, loading, error] = useSignOut(auth);
+
+  const logout = async () => {
+    await signOut();
+    // setUser(null);
+    router.push("/");
+  };
+
   return (
     <header className="">
       <div className="grid grid-cols-3  justify-items-center">
         <div />
         <Image src={"/image 1.svg"} width={250} height={250} alt="" />
 
-        <div className="space-x-8 py-8">
-          <Button
-            onClick={() => router.push("/login")}
-            text="Login"
-            bg="#F0F0F0"
-            color="black"
-          />
-          <Button
-            onClick={() => router.push("/register")}
-            text="Register"
-            bg="#D1155D"
-            color="white"
-          />
-        </div>
+        {user ? (
+          <div className="space-x-8 py-8">
+            <Button
+              onClick={() => router.push("/login")}
+              text="My Account"
+              bg="##cc0000"
+              color="black"
+            />
+            <Button
+              onClick={logout}
+              text="Log out"
+              bg="##F0F0F0"
+              color="black"
+            />
+          </div>
+        ) : (
+          <div className="space-x-8 py-8">
+            <Button
+              onClick={() => router.push("/login")}
+              text="Login"
+              bg="#F0F0F0"
+              color="black"
+            />
+            <Button
+              onClick={() => router.push("/register")}
+              text="Register"
+              bg="#D1155D"
+              color="white"
+            />
+          </div>
+        )}
       </div>
+
       <nav className="flex w-full bg-[#131428] justify-center space-x-24 text-lg font-semibold text-white py-5">
         {NavItmes.map((item) => (
           <li key={item.id} className="list-none cursor-pointer">
