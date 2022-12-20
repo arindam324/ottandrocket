@@ -1,22 +1,33 @@
-import { UserCredential } from "firebase/auth";
-import React, { ReactNode, useContext, useState } from "react";
+import React, { ReactNode, useContext, useEffect, useState } from "react";
 import { createContext } from "react";
+import { auth } from "../lib/firebase";
 
-// type User = {
-//   firstname: string;
-//   lastname: string;
-//   email: string;
-// };
+type User = {
+  uid: string;
+  email: string;
+};
 
 type userContext = {
-  user: UserCredential;
-  setUser: (user: UserCredential) => void;
+  user: User;
+  setUser: (user: User) => void;
 };
 
 const userContext = createContext<userContext>({} as userContext);
 
 const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<UserCredential>({} as UserCredential);
+  const [user, setUser] = useState<User>({} as User);
+
+  useEffect(() => {
+    const subscribe = auth.onAuthStateChanged((auth) => {
+      auth?.email &&
+        setUser({
+          uid: auth?.uid,
+          email: auth?.email,
+        });
+    });
+
+    return () => subscribe();
+  }, []);
 
   return (
     <userContext.Provider value={{ user, setUser }}>

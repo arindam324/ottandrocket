@@ -1,14 +1,11 @@
 import Head from "next/head";
 import React from "react";
-import { Card, Layout } from "../components";
+import { Card, Layout, NextHead } from "../components";
 
 const StickerSubscription = () => {
   return (
     <div>
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+      <NextHead />
       <Layout isSticker={true}>
         <div>
           <div className="flex">

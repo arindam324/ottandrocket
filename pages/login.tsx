@@ -1,12 +1,11 @@
-import React, { FormEvent, useContext, useState } from "react";
-import Head from "next/head";
+import React, { FormEvent, useState } from "react";
 
-import { Layout } from "../components";
+import { Layout, NextHead } from "../components";
 import Link from "next/link";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
+
 import { auth } from "../lib/firebase";
 import { useRouter } from "next/router";
-import { useUser } from "../context/useProvider";
 
 const Login = () => {
   const [email, setEmail] = useState<string>("");
@@ -15,21 +14,15 @@ const Login = () => {
 
   const [signInWithEmail, user, loading] = useSignInWithEmailAndPassword(auth);
 
-  const { setUser } = useUser();
-
   const formLogin = async (e: FormEvent) => {
     e.preventDefault();
     await signInWithEmail(email, password);
-    user && setUser(user);
     router.push("/");
   };
 
   return (
     <div>
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+      <NextHead />
       <Layout>
         <form
           onSubmit={formLogin}

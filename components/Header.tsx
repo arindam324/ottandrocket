@@ -39,7 +39,6 @@ const NavItmes = [
 
 const Header = () => {
   const router = useRouter();
-  // const { user, setUser } = useUser();
   const [user] = useAuthState(auth);
 
   const [signOut, loading, error] = useSignOut(auth);
@@ -58,18 +57,18 @@ const Header = () => {
 
         {user ? (
           <div className="space-x-8 py-8">
-            <Button
-              onClick={() => router.push("/login")}
-              text="My Account"
-              bg="##cc0000"
-              color="black"
-            />
-            <Button
+            <button
+              onClick={() => router.push("/my-account")}
+              className="px-10  font-semibold  cursor-pointer py-2 bg-[#F0F0F0]"
+            >
+              My Account
+            </button>
+            <button
               onClick={logout}
-              text="Log out"
-              bg="##F0F0F0"
-              color="black"
-            />
+              className="px-10 font-semibold py-2 bg-[#F0F0F0] cursor-pointer"
+            >
+              Log out
+            </button>
           </div>
         ) : (
           <div className="space-x-8 py-8">

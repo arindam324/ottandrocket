@@ -1,14 +1,11 @@
 import React from "react";
 import Head from "next/head";
-import { Layout } from "../components";
+import { Layout, NextHead } from "../components";
 
 const About = () => {
   return (
     <div className="flex min-h-screen flex-col ">
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+      <NextHead />
       <Layout>
         <h1 className="text-3xl p-20 font-semibold leading-normal	">
           Stickers are a great way to add some fun and creativity to your life.

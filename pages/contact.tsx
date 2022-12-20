@@ -1,14 +1,11 @@
 import React from "react";
 import Head from "next/head";
-import { Layout } from "../components";
+import { Layout, NextHead } from "../components";
 
 const Contact = () => {
   return (
     <div>
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+      <NextHead />
       <Layout>
         <div className="flex space-y-8 items-center h-full flex-col justify-center ">
           <h2 className="text-4xl py-6">You Can Contact us On:</h2>

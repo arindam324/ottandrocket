@@ -1,15 +1,12 @@
 import React from "react";
 import Head from "next/head";
-import { Layout } from "../components";
+import { Layout, NextHead } from "../components";
 import Button from "../components/Button";
 
 const KidsStickerArt = () => {
   return (
     <div>
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+      <NextHead />
       <Layout>
         <div className="flex">
           <div className="w-1/2 flex flex-col items-center px-12">

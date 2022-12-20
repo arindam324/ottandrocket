@@ -1,13 +1,14 @@
 import React, { FormEvent, useState } from "react";
-import Head from "next/head";
 import { useRouter } from "next/router";
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
+import { addDoc, collection, doc, setDoc } from "firebase/firestore";
 
-import { Layout } from "../components";
-import { auth } from "../lib/firebase";
-import { useUser } from "../context/useProvider";
+import { Layout, NextHead } from "../components";
+import { auth, db } from "../lib/firebase";
 
 const Register = () => {
+  const [firstname, setFirstname] = useState<string>("");
+  const [lastname, setLastname] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const router = useRouter();
@@ -15,21 +16,29 @@ const Register = () => {
   const [createUserWIthEmailandPassword, user, loading, error] =
     useCreateUserWithEmailAndPassword(auth);
 
-  const { setUser } = useUser();
-
   const FormRegister = async (e: FormEvent) => {
     e.preventDefault();
-    await createUserWIthEmailandPassword(email, password);
-    user && setUser(user);
+    try {
+      const createdUser = await createUserWIthEmailandPassword(email, password);
+      if (createdUser) {
+        const docref = doc(collection(db, "users"), createdUser?.user.uid);
+        console.log(createdUser.user);
+        await setDoc(docref, {
+          firstname: firstname,
+          lastname: lastname,
+          email: createdUser?.user.email,
+        });
+      }
+    } catch (err) {
+      console.log(err);
+    }
+
     router.push("/");
   };
 
   return (
     <div>
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+      <NextHead />
       <Layout>
         <form
           onSubmit={FormRegister}
@@ -39,11 +48,21 @@ const Register = () => {
         >
           <div className="flex flex-col space-y-2  max-w-[600px] w-full">
             <label htmlFor="firstname">First Name</label>
-            <input type="text" className="border  p-4" />
+            <input
+              value={firstname}
+              onChange={(e) => setFirstname(e.currentTarget.value)}
+              type="text"
+              className="border  p-4"
+            />
           </div>
           <div className="flex flex-col space-y-2  max-w-[600px] w-full">
             <label htmlFor="surname">Surname</label>
-            <input type="text" className="border  p-4" />
+            <input
+              value={lastname}
+              onChange={(e) => setLastname(e.currentTarget.value)}
+              type="text"
+              className="border  p-4"
+            />
           </div>
           {loading && (
             <div className="flex absolute top-[50%] items-center justify-center">

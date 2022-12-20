@@ -1,16 +1,10 @@
 import type { NextPage } from "next";
-import Head from "next/head";
-
-import { Card, Layout } from "../components";
+import { Card, Layout, NextHead } from "../components";
 
 const Home: NextPage = () => {
   return (
     <div className="flex min-h-screen flex-col ">
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
+      <NextHead />
       <Layout>
         <div className="mt-4 justify-evenly flex justify-center">
           <Card
